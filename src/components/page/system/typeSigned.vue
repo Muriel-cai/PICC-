@@ -9,7 +9,7 @@ export default {
   name: 'notice',
   data () {
     return {
-     "title":"健步走签到"
+      'title': '健步走签到'
     }
   }
 }

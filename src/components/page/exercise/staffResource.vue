@@ -7,16 +7,16 @@
          <setBtn :btnText = "addText" @btnEvent ="addMarkList"></setBtn>
        </div>
        <div>
-        <el-tree         
-          :data="StaffData"   
+        <el-tree
+          :data="StaffData"
           default-expand-all
           node-key="id"
           ref="tree"
           highlight-current
           :props="defaultProps"
           @node-click ='handleNodeClick'
-          :default-expanded-keys="treeExpandedKeys"        
-          
+          :default-expanded-keys="treeExpandedKeys"
+
           >
         </el-tree>
        </div>
@@ -65,13 +65,13 @@
                width="160"
              >
            </el-table-column>
-           <el-table-column   label="操作"  width="200">  
+           <el-table-column   label="操作"  width="200">
              <template slot-scope="scope">
                <span class="btn red_btn" @click="delectEdit(scope.row.userId)">删除</span>
                <span class="btn blue_btn" @click="handleEdit(scope.row.userId)">修改</span>
                <span class="btn blue_btn" @click="choiceEdit(scope.row.userId)">选择角色</span>
 
-             </template>  
+             </template>
 
            </el-table-column>
          </el-table>
@@ -95,45 +95,45 @@
       :visible.sync="ifChange"
       width="350px"
       top = "10vh"
-      center >  
-      <div v-if="isRote == true">     
+      center >
+      <div v-if="isRote == true">
         <div v-if="isZy == false">
-        <div class="xxx-box"> 
+        <div class="xxx-box">
            <div class="xxx-box30" style="width: 250px;" >用户账号名:</div>
            <div class="xxx-box70" style="width: 250px;">
-             <el-input v-model="userAccount" placeholder="请填写"></el-input>            
-           </div> 
-          
+             <el-input v-model="userAccount" placeholder="请填写"></el-input>
+           </div>
+
         </div>
-        <div class="xxx-box"> 
+        <div class="xxx-box">
            <div class="xxx-box30" style="width: 250px;">用户名称:</div>
            <div class="xxx-box70" style="width: 250px;">
-             <el-input v-model="userName" placeholder="请填写"></el-input>            
-           </div> 
-          
+             <el-input v-model="userName" placeholder="请填写"></el-input>
+           </div>
+
         </div>
-        <div class="xxx-box" v-if="isnew == true"> 
+        <div class="xxx-box" v-if="isnew == true">
            <div class="xxx-box30" style="width: 250px;">用户初始密码:</div>
            <div class="xxx-box70" style="width: 250px;">
-             <el-input v-model="userPwd" placeholder="请填写"></el-input>            
-           </div> 
-          
+             <el-input v-model="userPwd" placeholder="请填写"></el-input>
+           </div>
+
         </div>
-        <div class="xxx-box"> 
+        <div class="xxx-box">
            <div class="xxx-box30" style="width: 250px;">用户手机:</div>
            <div class="xxx-box70" style="width: 250px;">
-             <el-input v-model="userPhone" placeholder="请填写"></el-input>            
-           </div> 
-          
+             <el-input v-model="userPhone" placeholder="请填写"></el-input>
+           </div>
+
         </div>
-        <div class="xxx-box"> 
+        <div class="xxx-box">
            <div class="xxx-box30" style="width: 250px;">用户邮箱:</div>
            <div class="xxx-box70" style="width: 250px;">
-             <el-input v-model="userEmail" placeholder="请填写"></el-input>            
-           </div> 
-          
+             <el-input v-model="userEmail" placeholder="请填写"></el-input>
+           </div>
+
         </div>
-         
+
         </div>
         <div v-if="isZy == true">
         <el-table
@@ -153,16 +153,16 @@
             >
           </el-table-column>
 
-        </el-table>       
+        </el-table>
         </div>
       </div>
       <div v-if="isRote == false">
-        <div class="xxx-box"> 
+        <div class="xxx-box">
            <div class="xxx-box30" style="width: 250px;">节点名称:</div>
            <div class="xxx-box70" style="width: 250px;">
-             <el-input v-model="markName" placeholder="请填写"></el-input>            
-           </div> 
-          
+             <el-input v-model="markName" placeholder="请填写"></el-input>
+           </div>
+
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -171,302 +171,285 @@
     </el-dialog>
      </div>
    </div>
-   
-
-
 
   </div>
 </template>
 
 <script>
-  import setBtn from '../../part/btn'
-  import staffL from './staffL'
+import setBtn from '../../part/btn'
+import staffL from './staffL'
 export default {
   name: 'staffResource',
-  inject:['reload'],
+  inject: ['reload'],
   data () {
     return {
-     "title":"用户管理",
-     addText:'新增',
-     isRote:false,
-     StaffData:[],
-     roleData:[],
-     treeExpandedKeys:[],
-     defaultProps: {
+      'title': '用户管理',
+      addText: '新增',
+      isRote: false,
+      StaffData: [],
+      roleData: [],
+      treeExpandedKeys: [],
+      defaultProps: {
         children: 'children',
         label: 'text',
-        id: "",
+        id: ''
       },
-      currentPage:1,
-      totalNum :1,
-      ifChange:false,
-      userAccount:'',
-      userName:'',
-      userPwd:'123456',
-      userPhone:'',
-      userEmail:'',
-      markName:'',
-      saveBtn:'保存',
-      isnew:true,
-      isZy:false,
-      markId:'',
-      priority:'',
-      parentId:'',
-      userId:'',
-      roleZyData:[],
-      hasCroleId:[],
-      IdsData:[]
+      currentPage: 1,
+      totalNum: 1,
+      ifChange: false,
+      userAccount: '',
+      userName: '',
+      userPwd: '123456',
+      userPhone: '',
+      userEmail: '',
+      markName: '',
+      saveBtn: '保存',
+      isnew: true,
+      isZy: false,
+      markId: '',
+      priority: '',
+      parentId: '',
+      userId: '',
+      roleZyData: [],
+      hasCroleId: [],
+      IdsData: []
 
     }
   },
-  components:{
+  components: {
     setBtn,
     staffL
   },
-  computed:{
-   
+  computed: {
+
   },
-  watch:{
-   
+  watch: {
+
   },
-  created(){
-    let self = this;
-    this.$axios.post('/api/querySUser',this.qs.stringify({
-      "page":1,
-      "limit":15
-    })).then(res=>{
+  created () {
+    let self = this
+    this.$axios.post('/api/querySUser', this.qs.stringify({
+      'page': 1,
+      'limit': 15
+    })).then(res => {
       // console.log(res.data,"右边");
-      self.roleData = res.data.data;
+      self.roleData = res.data.data
       self.totalNum = res.data.total
-    }).then(()=>{
-      this.$axios.post('/api/getMarkList').then(res=>{
+    }).then(() => {
+      this.$axios.post('/api/getMarkList').then(res => {
         // console.log(res.data,'左边');
-        self.StaffData.push(res.data.data);
+        self.StaffData.push(res.data.data)
       })
-    }).catch(ret =>{
+    }).catch(ret => {
       console.log(ret)
     })
   },
-  methods:{
+  methods: {
     // 新增用户信息
-    addStaff(){
-      let self = this;
-      self.ifChange = true;
-      self.isZy = false;
-      self.isnew = true;
-      self.isRote = true;
+    addStaff () {
+      let self = this
+      self.ifChange = true
+      self.isZy = false
+      self.isnew = true
+      self.isRote = true
     },
-    //新增节点
-    addMarkList(){
-      let self = this;
+    // 新增节点
+    addMarkList () {
+      let self = this
       console.log(self.markId)
-      if(self.markId !=''){
-        console.log('markId不等于空');
-        self.ifChange = true;
-        self.isRote = false;
-        
-      } else{
-        console.log('markId等于空');
+      if (self.markId !== '') {
+        self.ifChange = true
+        self.isRote = false
+      } else {
         self.$message({
           type: 'success',
           message: '请先选择节点!'
-        });
+        })
       }
-      
     },
-    handleNodeClick(data,node){
-      let self = this;
-      console.log(data,node,'handleNodeClick',data.id);
-      self.markId=data.id;
-      self.priority=data.priority;
-      self.parentId=data.parentId;
+    handleNodeClick (data, node) {
+      let self = this
+      self.markId = data.id
+      self.priority = data.priority
+      self.parentId = data.parentId
     },
- 
-    // 修改员工信息
-    handleEdit(id){
-      let self = this;
-      self.ifChange = true;
-      self.isZy = false;
-      self.isnew = false;
-      self.isRote = true;
-      self.userId = id;
-      this.$axios.post('/api/getUserByUserId',this.qs.stringify({userId:id})).then(res=>{
-        console.log(res.data.data)
-        self.userAccount = res.data.data.userAccount;
-        self.userName = res.data.data.userName;
-        self.userEmail = res.data.data.userEmail;
-        self.userPhone = res.data.data.userPhone;
 
-      }).catch(ret=>{
+    // 修改员工信息
+    handleEdit (id) {
+      let self = this
+      self.ifChange = true
+      self.isZy = false
+      self.isnew = false
+      self.isRote = true
+      self.userId = id
+      this.$axios.post('/api/getUserByUserId', this.qs.stringify({userId: id})).then(res => {
+        self.userAccount = res.data.data.userAccount
+        self.userName = res.data.data.userName
+        self.userEmail = res.data.data.userEmail
+        self.userPhone = res.data.data.userPhone
+      }).catch(ret => {
 
       })
     },
     // 删除
-    delectEdit(id){
-      let self = this;
+    delectEdit (id) {
+      let self = this
 
       this.$confirm('此操作将永久清除数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.post('/api/delUserByUserId',this.qs.stringify({
-        userId:id
-      })).then(function(res){
-          console.log(res,"删除");
+        this.$axios.post('/api/delUserByUserId', this.qs.stringify({
+          userId: id
+        })).then(function (res) {
+          console.log(res, '删除')
           self.$message({
             type: 'success',
             message: '删除成功!'
-          });
-          self.reload();
-        }).catch(function(ret){
-           console.log(ret)
-        })      
+          })
+          self.reload()
+        }).catch(function (ret) {
+          console.log(ret)
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
-      });  
-      
+        })
+      })
     },
     // 选择资源
-    choiceEdit(id){
-      let self = this;
-      self.isZy = true;
-      self.ifChange = true;
-      self.isRote = true;
-      self.userId = id;
-      this.$axios.post('/api/selectRoleByUser',this.qs.stringify(
-      {
-        userId:id
-      })).then(res=>{
+    choiceEdit (id) {
+      let self = this
+      self.isZy = true
+      self.ifChange = true
+      self.isRote = true
+      self.userId = id
+      this.$axios.post('/api/selectRoleByUser', this.qs.stringify(
+        {
+          userId: id
+        })).then(res => {
         // console.log(res.data);
-        self.roleZyData = res.data.data;
+        self.roleZyData = res.data.data
         // console.log(self.roleZyData.length,"oooooo")
-        for(let i = 0 ; i < self.roleZyData.length ; i++ ){
-         
-           if(self.roleZyData[i].status == 1){
-             //这是默认选中上的
-              console.log(self.roleZyData[i],"pppppp")
-             this.$refs.multipleTableT.toggleRowSelection(self.roleZyData[i],true);
-           }
-         } 
-      }).catch(ret =>{
+        for (let i = 0; i < self.roleZyData.length; i++) {
+          if (self.roleZyData[i].status === 1) {
+            this.$refs.multipleTableT.toggleRowSelection(self.roleZyData[i], true)
+          }
+        }
+      }).catch(ret => {
         console.log(ret)
       })
     },
-    handleSelectionChange(val){
-      let self = this;
+    handleSelectionChange (val) {
+      let self = this
       // console.log(val,"val");
-      self.hasCroleId = val;
+      self.hasCroleId = val
     },
     // 保存新增或者修改数据
-    saveData(){
-      let self = this;
+    saveData () {
+      let self = this
       let param = {
-        userAccount:self.userAccount,
-        userPwd:self.userPwd,
-        userName:self.userName,
+        userAccount: self.userAccount,
+        userPwd: self.userPwd,
+        userName: self.userName,
         userPhone: self.userPhone,
         userEmail: self.userEmail,
-        mark_id:self.markId
-      };
-    
-     
-        
-       if(self.isZy == false){
-         if(self.userName == ''){
-           self.$message({
-             type: 'info',
-             message: '用户名不能为空!'
-           });
-           return false;
-         }
-        if(self.isnew == true ){
-          if(self.userPwd == ''){
+        mark_id: self.markId
+      }
+
+      if (self.isZy === false) {
+        if (self.userName === '') {
+          self.$message({
+            type: 'info',
+            message: '用户名不能为空!'
+          })
+          return false
+        }
+        if (self.isnew === true) {
+          if (self.userPwd === '') {
             self.$message({
               type: 'info',
               message: '初始密码不能为空!'
-            });
-            return false;
-          }   
-          this.$axios.post('/api/addOrUpdateSUser',this.qs.stringify(param)).then(res=>{
-            
+            })
+            return false
+          }
+          this.$axios.post('/api/addOrUpdateSUser', this.qs.stringify(param)).then(res => {
             self.$message({
               type: 'success',
               message: '新增用户的信息成功!'
-            });
-            self.ifChange = false;
-            self.reload();
-          }).catch(ret=>{
+            })
+            self.ifChange = false
+            self.reload()
+          }).catch(ret => {
             console.log(ret)
           })
-        } else if(self.isnew == false){
+        } else if (self.isnew === false) {
           param.userId = self.userId
-          this.$axios.post('/api/addOrUpdateSUser',this.qs.stringify(param)).then(res=>{          
+          this.$axios.post('/api/addOrUpdateSUser', this.qs.stringify(param)).then(res => {
             self.$message({
               type: 'success',
               message: '修改用户的信息成功!'
-            });
-            self.ifChange = false;
-            self.reload();
-          }).catch(ret=>{
+            })
+            self.ifChange = false
+            self.reload()
+          }).catch(ret => {
             console.log(ret)
           })
         }
-       } else if(self.isZy == true){
+      } else if (self.isZy === true) {
         // console.log(self.hasCroleId,"[[[[[[")
-        self.hasCroleId.forEach((n,m)=>{
+        self.hasCroleId.forEach((n, m) => {
           // console.log(n.authId,m);
-          self.IdsData.push(n.roleId);
-        });
+          self.IdsData.push(n.roleId)
+        })
         // console.log(self.IdsData.join(','),"pppppppp",self.id)
-        this.$axios.post('/api/addRoleByuserId',this.qs.stringify({
+        this.$axios.post('/api/addRoleByuserId', this.qs.stringify({
           roleId: self.IdsData.join(','),
-          userId:self.userId
-        })).then(res=>{
+          userId: self.userId
+        })).then(res => {
           // console.log(res);
-          self.ifChange = false;
-          self.hasCroleId =[];
-          self.reload();
-        }).catch(ret=>{
+          self.ifChange = false
+          self.hasCroleId = []
+          self.reload()
+        }).catch(ret => {
           console.log(ret)
         })
-       }
-      
-     // if(self.isRote == true){  } else if(self.isRote == false){
-     //  this.$axios.post('/api/addMark',this.qs.stringify({
-     //      markName:self.markName,
-     //      parentId:self.parentId,
-     //      priority:self.priority
-     //    })).then(res=>{
-     //      // console.log(res);
-     //      self.$message({
-     //        type: 'success',
-     //        message: '新增节点成功!'
-     //      });
-     //      self.ifChange = false;
-     //      self.reload();
-     //    }).catch(ret =>{
-     //      console.log(ret)
-     //    })
-     //  }    
+      }
+
+      // if(self.isRote == true){  } else if(self.isRote == false){
+      //  this.$axios.post('/api/addMark',this.qs.stringify({
+      //      markName:self.markName,
+      //      parentId:self.parentId,
+      //      priority:self.priority
+      //    })).then(res=>{
+      //      // console.log(res);
+      //      self.$message({
+      //        type: 'success',
+      //        message: '新增节点成功!'
+      //      });
+      //      self.ifChange = false;
+      //      self.reload();
+      //    }).catch(ret =>{
+      //      console.log(ret)
+      //    })
+      //  }
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
     },
-    handleCurrentChange(val) {
-      let self = this;
-      console.log(`当前页: ${val}`,val);
+    handleCurrentChange (val) {
+      let self = this
+      console.log(`当前页: ${val}`, val)
       let param = this.qs.stringify({
-        page:val,
-        limit :15    
-      }); 
-      this.$axios.post('/api/querySUser',param).then(function(res){
+        page: val,
+        limit: 15
+      })
+      this.$axios.post('/api/querySUser', param).then(function (res) {
         // console.log(res.data,"pppppp");
-        self.roleData = res.data.data;
-      }).catch(function(ret){
+        self.roleData = res.data.data
+      }).catch(function (ret) {
         console.log(ret)
       })
     }
@@ -482,8 +465,8 @@ export default {
     width: 100%;
     height: auto;
     padding: 10px 20px;
-    .mainBox{
-      // display: flex; 
+    //.mainBox{
+      // display: flex;
       // .leftbox{
       //   position:relative;
       //   flex-grow:1;
@@ -498,16 +481,15 @@ export default {
       //   flex-basis: 22px;
       //   flex-shrink: 4;
       // }
-    }
+   // }
     .btnBox{
       margin-bottom: 10px;
-  
+
     }
   }
 </style>
 
-
-<!-- 
+<!--
 .row__item--double {
     -webkit-box-flex: 2;
     -webkit-flex-grow: 2;

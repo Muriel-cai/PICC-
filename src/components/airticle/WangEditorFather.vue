@@ -19,14 +19,13 @@ export default {
       isClear: false
     }
   },
-  created(){
-    console.log(this.editor.info,'jj')
+  created () {
   },
   components: {
     EditorBar
   },
-  methods:{
-    sure(){
+  methods: {
+    sure () {
       // console.log(11111,this.editor.info);
     }
   }

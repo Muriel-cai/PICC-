@@ -1,19 +1,12 @@
 <template>
   <div id="app">
     <div v-show="isLogin && hasQx">
-
       <topNav @loginOutE="loginOutE" :userName="userName"></topNav>
       <div class="leftcon">
         <leftNav @showCon="changeCon" :allNav="allNav"></leftNav>
       </div>
     </div>
-   
-   
     <div class="main" >
-      
-     <!--   <div class="leftNav">
-      
-      </div>  -->
       <div :class='[ "account-content" ,{all_p10 : isLogin  == true }]'  >
         <router-view v-if ="isRouterAlive"></router-view>
       </div>
@@ -23,95 +16,91 @@
 </template>
 
 <script>
-  import leftNav from './components/nav/leftNav'
-  import topNav from './components/nav/topNav'
+import leftNav from './components/nav/leftNav'
+import topNav from './components/nav/topNav'
 
 export default {
   name: 'App',
-  provide(){
+  provide () {
     return {
-      reload:this.reload
+      reload: this.reload
     }
   },
-  data(){
+  data () {
     return {
-       navs:[
+      navs: [
         {
-          link:"/showCon",
-          text:"悦分享"
+          link: '/showCon',
+          text: '悦分享'
         },
         {
-          link:"/welfare",
-          text:"悦福利"
+          link: '/welfare',
+          text: '悦福利'
         }
-      ],    
-      isRouterAlive:true,
-      showNav:false,
-      allNav:[],
-      hasQx:false,
-      userId:'',
-      userName:''
+      ],
+      isRouterAlive: true,
+      showNav: false,
+      allNav: [],
+      hasQx: false,
+      userId: '',
+      userName: ''
     }
   },
-  components:{
-    topNav:topNav,
-    leftNav:leftNav
+  components: {
+    topNav: topNav,
+    leftNav: leftNav
   },
-  computed:{
-    isLogin(val){
-      this.userName = localStorage.getItem('name');
-      this.userId = localStorage.getItem('userId',val)
-      if(this.userId){        
-        this.getLeftNav(this.userId);
-      };      
-      return this.$store.getters.isLoggedIn
-      this.$router.push('/login');
-    }
-   
+  computed: {
+
   },
-  created(){
-     let self = this; 
+  created () {
+    this.isLogin()
   },
-  methods:{
-    changeCon(option){
-      var self = this;
+  methods: {
+    changeCon (option) {
       this.$router.push({path: option})
     },
-    loginOutE(){
+    loginOutE () {
       this.$store.dispatch('LogOut').then(() => {
-      //跳转到登录页面  
-      this.$router.push('/login');
+      // 跳转到登录页面
+        this.$router.push('/login')
       })
     },
-    getLeftNav(id){
-      let self = this;
-      this.$axios.post('/api/showMenus',this.qs.stringify({userId:id})).then(res=>{
+    isLogin (val) {
+      this.userName = localStorage.getItem('name')
+      this.userId = localStorage.getItem('userId', val)
+      if (this.userId) {
+        this.getLeftNav(this.userId)
+      };
+      return this.$store.getters.isLoggedIn
+      // this.$router.push('/login')
+    },
+    getLeftNav (id) {
+      let self = this
+      this.$axios.post('/api/showMenus', this.qs.stringify({userId: id})).then(res => {
         // console.log(res.data)
-        if(res.data.data.children ){
-          self.hasQx = true;
-           self.allNav = res.data.data.children;
-            // console.log(self.allNav ,"[[[[[")
-         }else {
-          console.log('没有数据');
+        if (res.data.data.children) {
+          self.hasQx = true
+          self.allNav = res.data.data.children
+          // console.log(self.allNav ,"[[[[[")
+        } else {
+          console.log('没有数据')
           self.$message({
             type: 'success',
             message: '您还没有权限! 请联系管理员'
-          });   
-          self.hasQx = false;
+          })
+          self.hasQx = false
           this.loginOutE()
-         }
-        
-
-       
-      }).catch(ret=>{
+        }
+      }).catch(ret => {
         console.log(ret)
       })
     },
-    reload(){
-      this.isRouterAlive = false;
-      this.$nextTick(function(){
-        this.isRouterAlive = true;
-      });
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
     }
   }
 }
@@ -188,7 +177,7 @@ html,body{
   .clear{
     clear: both;
   }
-  .m-t5:{
+  .m-t5{
     margin-top: 20px;
   }
   .m-b5{
@@ -200,40 +189,13 @@ html,body{
   .all_p10{
     padding:10px;
   }
-  .xxx-box{
-    position:relative;
-    clear: both;
-    width: 100%;
-    min-height:34px;
-    margin:10px 0;
-    .xxx-box30{
-      width: 130px;
-      height: 34px;
-      float: left;
-      line-height: 34px;
-     
-    }
-    .xxx-box70{
-      width: calc(100% - 135px);
-      float: right;
-      
-    }
-    p{
-    clear: both;
-    padding:10px 0;
-    color: #666;
-    font-size: 12px;
-    line-height: 18px;
-
-  }
-}
 </style>
 <style lang="less" scoped>
 .leftcon{
   width: 180px;
   height: auto;
 }
-.main{ 
+.main{
   position:relative;
   float: left;
   width: calc(100% - 160px);
@@ -256,10 +218,9 @@ html,body{
       }
     }
   }
-  .account-content{  
+  .account-content{
     flex: 1;
     background: #fff;
   }
- } 
+ }
 </style>
-

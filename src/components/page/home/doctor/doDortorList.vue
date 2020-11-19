@@ -63,13 +63,13 @@
              show-score
              text-color="#ff9900"
              v-if ='scope.row.wz_evaluate >=1'
-            > 
+            >
            </el-rate>
            <span v-if ='scope.row.wz_evaluate == 0 '> 未评分</span>
         </template>
-        
+
        </el-table-column>
-       <el-table-column  width="120"  label="操作">  
+       <el-table-column  width="120"  label="操作">
          <template slot-scope="scope">
            <el-button
             v-if="scope.row.wz_state == 1"
@@ -89,7 +89,7 @@
             size="mini"
             type = "text"
             @click="handleEditTr(scope.row.wzid,'3')">完成</el-button>
-         </template>   
+         </template>
        </el-table-column>
 
      </el-table>
@@ -99,45 +99,37 @@
 <script>
 export default {
   name: 'doDortorList',
-  props:['doDortorList','handleEdit'],
+  props: ['doDortorList', 'handleEdit'],
   data () {
     return {
-    
+
     }
   },
-  methods:{
-    renderstate(state){
-      // console.log(state,"++++++++++++")
+  methods: {
+    renderstate (state) {
+      let text
       switch (state) {
         case '1':
-          return "已申请";
-          break;
+          text = '已申请'
+          break
         case '2':
-          return "处理中";
-          break;
+          text = '处理中'
+          break
         case '3':
-          return "已完成";
-          break;
+          text = '已完成'
+          break
         case '4':
-          return "已评价";
-          break;
+          text = '已评价'
+          break
         case '5':
-          return "已退回";
-          break;
+          text = '已退回'
+          break
       }
+      return text
     },
-    handleEditTr(id,type){
+    handleEditTr (id, type) {
       // console.log(id,type);
-      this.$emit('handleEdit', id , type)
-      
-      // this.$axios.post('/api/updateWzStatus',this.qs.stringify({
-      //   wzid:id,
-      //   wzHandle:type
-      // })).then(res=>{
-      //   console.log(res,"wzHandle")
-      // }).catch(ret=>{
-      //   console.log(ret)
-      // })
+      this.$emit('handleEdit', id, type)
     }
   }
 }
@@ -149,7 +141,3 @@ export default {
     color:#0BAA1B;
   }
 </style>
-
-
-
-

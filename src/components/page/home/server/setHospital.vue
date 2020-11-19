@@ -12,13 +12,13 @@
          prop="hospitalType"
          label="合同类别可见"
         >
-         <template slot-scope="scope">  
+         <template slot-scope="scope">
            <span v-if="scope.row.hospitalType.indexOf(1) != -1">总公司版本劳动合同工 </span>
            <span v-if="scope.row.hospitalType.indexOf(2) != -1">地方版本劳动合同工 </span>
            <span v-if="scope.row.hospitalType.indexOf(3) != -1">劳务派遣人员</span>
          </template>
        </el-table-column>
-       <el-table-column  width="180"  label="操作">  
+       <el-table-column  width="180"  label="操作">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -32,7 +32,7 @@
               @click="deleteHTr(scope.row.id)">
               删除
             </el-button>
-          </template>   
+          </template>
         </el-table-column>
      </el-table>
   </div>
@@ -41,20 +41,20 @@
 <script>
 export default {
   name: 'setHospitalD',
-  props:['setHospitalD','deleteHosTr','editHosiTr'],
+  props: ['setHospitalD', 'deleteHosTr', 'editHosiTr'],
   data () {
     return {
-    
+
     }
   },
-  methods:{
-    deleteHTr(option){
-      this.$emit('deleteHosTr',option);
+  methods: {
+    deleteHTr (option) {
+      this.$emit('deleteHosTr', option)
     },
-    editHosi(option){
-      this.$emit('editHosiTr',option);
+    editHosi (option) {
+      this.$emit('editHosiTr', option)
     }
-    
+
   }
 }
 </script>
@@ -63,8 +63,3 @@ export default {
 <style scoped>
 
 </style>
-
-
-
-
-

@@ -52,7 +52,7 @@
          label="提交时间"
          width="180">
        </el-table-column>
-       <el-table-column  width="120"  label="操作">  
+       <el-table-column  width="120"  label="操作">
          <template slot-scope="scope">
            <el-button
            size="mini"
@@ -61,7 +61,7 @@
            >
              删除
            </el-button>
-         </template>   
+         </template>
        </el-table-column>
      </el-table>
   </div>
@@ -70,15 +70,15 @@
 <script>
 export default {
   name: 'treatmentD',
-  props:['treatmentD','deleteLxyList'],
+  props: ['treatmentD', 'deleteLxyList'],
   data () {
     return {
-    
+
     }
   },
-  methods:{
-    deleteTr(id){
-      this.$emit('deleteLxyList',id)
+  methods: {
+    deleteTr (id) {
+      this.$emit('deleteLxyList', id)
     }
   }
 }
@@ -88,7 +88,3 @@ export default {
 <style scoped>
 
 </style>
-
-
-
-

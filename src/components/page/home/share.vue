@@ -3,7 +3,7 @@
    <h1>{{title}}</h1>
    <div class="topcon">
       <div class="leftBtn">
-      <setBtn :btnText = "addShareText" @btnEvent ="addShare"></setBtn>           
+      <setBtn :btnText = "addShareText" @btnEvent ="addShare"></setBtn>
       </div>
     <!--   <div class="rightSec">
         <el-date-picker
@@ -11,7 +11,7 @@
           type="date"
           placeholder="选择日期"
           format="yyyy-MM-dd"
-        > 
+        >
         </el-date-picker>
         <el-select v-model="typeValue" placeholder="请选择">
           <el-option
@@ -24,8 +24,8 @@
         <el-button type="primary" icon="el-icon-search" size="small" @click="search()">查询</el-button>
       </div> -->
    </div>
-   
-  <el-table 
+
+  <el-table
   ref="multipleTable"
   :data="tableData"
   tooltip-effect="dark"
@@ -40,39 +40,37 @@
    <el-table-column
    prop="title"
    label="标题"
-   
-   >    
+
+   >
    </el-table-column>
    <!--  <el-table-column
     prop="time"
     label="结束时间"
     width="180"
-    >     
+    >
     </el-table-column> -->
     <el-table-column
     prop="text"
     label="类型"
     width="90"
-    >  
-    <template slot-scope="scope">        
+    >
+    <template slot-scope="scope">
       {{settype(scope.row.type,scope.row,scope)}}
     </template>
-    </el-table-column>
-     
     </el-table-column>
     <el-table-column
     prop="time"
     label="发布时间"
     width="180"
-    >     
+    >
     </el-table-column>
-   
-    <el-table-column   label="操作"  width="180">  
+
+    <el-table-column   label="操作"  width="180">
       <template slot-scope="scope">
         <span class="btn blue_btn" @click="handleEdit(scope.row)">编辑</span>
         <span class="btn blue_btn" v-if ="scope.row.type == 2" @click="checkVote(scope.row)">查看投票 </span>
         <span class="btn red_btn" @click="delectEdit(scope.row)">删除</span>
-      </template>   
+      </template>
     </el-table-column>
   </el-table>
     <!--弹框内容-->
@@ -86,47 +84,48 @@
       <!-- 编辑信息的弹框 -->
      <div ref="addshareBox" v-if="ifEdit == 1">
       <div >
-        <div class="xxx-box" v-if="ifAdd"> 
+        <div class="xxx-box" v-if="ifAdd">
           <div class="xxx-box30">新增分享:</div>
           <div class="xxx-box70">
-            <span 
-              v-for="(item, index) in tabs" 
+            <span
+              v-for="(item, index) in tabs"
+              :key=index
               :class="['tabBox', isTab == index ? 'isTab' : 'noTab']"
               @click="changeTab(index)"
               >{{item.text}}
-            </span>  
-          </div>                                             
+            </span>
+          </div>
         </div>
         <div   >
-          <div class="xxx-box"> 
+          <div class="xxx-box">
             <div class="xxx-box30">标题:</div>
             <div class="xxx-box70">
               <el-input v-model="shareTitle" placeholder="请填写"></el-input>
-              
-            </div>                                             
+
+            </div>
           </div>
-          <div class="xxx-box"> 
+          <div class="xxx-box">
             <div class="xxx-box30">封面:</div>
             <div class="xxx-box70">
               <div class="xxx-boxfile">
                 <input type="file" @change="uploadFile($event)" multiple="multiple" accept="image/png,image/jpeg,image/gif,image/  jpg"/>
                 <img :src="articlePic" v-if="articlePic">
-                <span>仅支持上传 jpg、png格式</span>                
+                <span>仅支持上传 jpg、png格式</span>
               </div>
                <p class="deletePicBtn" @click='deletePic'>删除</p>
-            </div>                                          
+            </div>
           </div>
-          <div class="xxx-box" v-if="isTab !== 2"> 
+          <div class="xxx-box" v-if="isTab !== 2">
             <div class="xxx-box30">内容:</div>
             <div class="xxx-box70">
              <editor-bar v-model="editor.info" :isClear="isClear"></editor-bar>
-              
-            </div>                                             
+
+            </div>
           </div>
         </div>
       </div>
-      <div class="voteCon" v-if="isTab == 1"> 
-        <div class="xxx-box" v-if=" isTab === 0 || isTab === 1 "> 
+      <div class="voteCon" v-if="isTab == 1">
+        <div class="xxx-box" v-if=" isTab === 0 || isTab === 1 ">
           <div class="xxx-box30">结束时间:</div>
           <div class="xxx-box70">
             <el-date-picker
@@ -134,95 +133,94 @@
               type="datetime"
               placeholder="选择日期时间">
             </el-date-picker>
-                           
-          </div>                                             
+
+          </div>
         </div>
-        <div class="xxx-box"> 
+        <div class="xxx-box">
           <div class="xxx-box70">
            <setBtn :btnText = "addQuestion" @btnEvent ="addQuestionE"></setBtn>
               <div class="questionBox  border ">
-                <div  v-for="(item , index) in allQuestion" >   
-                  <h1 class="qusTitle">问题 {{index+1}}                        
+                <div  v-for="(item , index) in allQuestion" :key= index>
+                  <h1 class="qusTitle">问题 {{index+1}}
                     <span  @click="statehidden(index)" ref="arrow">收起</span>
                     <!-- <span @click="item.ifDevelop = true" v-else="item.ifDevelop">展开</span> -->
                     <span @click="deleteItem(item,index)">删除</span>
-                  </h1> 
-                  <div class="paddingL quesBox" ref="quesChild">                                         
-                    <div class="xxx-box"> 
+                  </h1>
+                  <div class="paddingL quesBox" ref="quesChild">
+                    <div class="xxx-box">
                     <div class="xxx-box30">标题:</div>
                     <div class="xxx-box70">
                       <el-input v-model="item.title" placeholder="请填写"></el-input>
-                    </div>                                             
-                    </div>  
-                    <div class="xxx-box"> 
+                    </div>
+                    </div>
+                    <div class="xxx-box">
                       <div class="xxx-box30">类型:</div>
                       <div class="xxx-box70">
-                        <span 
+                        <span
                           :class="['tabBox', item.type == 1 ? 'isTab' : 'noTab']"
                           @click="item.type = 1"
                           >单选
-                        </span>  
-                        <span 
+                        </span>
+                        <span
                           :class="['tabBox', item.type == 2 ? 'isTab' : 'noTab']"
                           @click="item.type = 2"
                           >多选
-                        </span>  
+                        </span>
 
-                      </div>                                         
-                    </div>  
+                      </div>
+                    </div>
                       <ul>
-                        <li v-for="(n , index1) in item.options ">               
-                          <div class="xxx-box"> 
-                           
+                        <li v-for="(n , index1) in item.options " :key="index1">
+                          <div class="xxx-box">
+
                             <div class="xxx-box30">选项{{index1 + 1}}:</div>
                             <div class="xxx-box60">
                               <el-input v-model="n.label" placeholder="请填写"></el-input>
-                              
+
                             </div>
-                            <div class="xxx-box30 red_btn p_left2" @click="deleteCho(index,index1)" v-if="index1 >1">删除选项 </div>                                             
-                          </div>  
+                            <div class="xxx-box30 red_btn p_left2" @click="deleteCho(index,index1)" v-if="index1 >1">删除选项 </div>
+                          </div>
                         </li>
                         <li>
                           <p style="padding-left: 85px; " class="blue_btn" @click="addCho (index)"> 添加选项</p>
-                            
-                          
+
                         </li>
                       </ul>
-                      
+
                   </div>
                 </div>
               </div>
-          </div>                                             
+          </div>
         </div>
       </div>
-      <div class="xxx-box" v-if="isTab == 2"> 
+      <div class="xxx-box" v-if="isTab == 2">
         <div class="xxx-box30">地址:</div>
         <div class="xxx-box70">
           <el-input v-model="content" placeholder="请填写外链如：www.picc.com"></el-input>
-          
-        </div>                                             
+
+        </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <setBtn :btnText = "publishBtn" @btnEvent ="publish"></setBtn>      
+        <setBtn :btnText = "publishBtn" @btnEvent ="publish"></setBtn>
       </div>
      </div>
      <!-- 查看投票情况的弹框 -->
      <div class="checkvoteBox" v-if="ifEdit == 2">
       <h1>{{shareTitle}}  </h1>
-      <div v-for="(item, index) in allQuestion">
+      <div v-for="(item, index) in allQuestion" :key="index">
         <p class="secTitle">{{item.title}}</p>
         <ul class="">
-          <li v-for=" (n , index1) in item.options">
+          <li v-for=" (n , index1) in item.options" :key="index1">
             <p> {{n.label}}</p>
             <div class="leftInfo" >
-              <el-progress :percentage="(setNum(n.ticket,item.ticketTotal))" :stroke-width="20" :text-inside="true" color="#F56C61" :format="format"></el-progress>             
+              <el-progress :percentage="(setNum(n.ticket,item.ticketTotal))" :stroke-width="20" :text-inside="true" color="#F56C61" :format="percentage === 100 ? '满' : `percentage%`"></el-progress>
             </div>
-             <div class="rightInfo">{{n.ticket}} 票</div> 
+             <div class="rightInfo">{{n.ticket}} 票</div>
           </li>
         </ul>
       </div>
      </div>
-    </el-dialog> 
+    </el-dialog>
       <!--分页-->
     <div class="block">
      <!--  <span class="demonstration">完整功能</span> -->
@@ -235,398 +233,388 @@
         :total="totalNum"
         >
       </el-pagination>
-    </div>   
+    </div>
   </div>
-  
+
 </template>
 
 <script>
-  import setBtn from '../../part/btn'
-  import EditorBar from '../../airticle/WangEditor'
+import setBtn from '../../part/btn'
+import EditorBar from '../../airticle/WangEditor'
 export default {
-  inject:['reload'],
+  inject: ['reload'],
   name: 'share',
   data () {
     return {
-     title:"悦分享",
-     addtitle:"新增分享",
-     addShareText:"新增分享",
-     ifAdd:true,
-     tableData:[],
-     getTime:'',
-     typeValue:'',
-     ifEdit:'1',
-     // options:[
-     // {
-     //  "value":"hhhh",
-     //  "label":"444444"
-     // }],
-     tabs:[
-      {
-        text:'图文',
-        code:"1"
-      },
-      {
-        text:'投票',
-        code:"2"
-      },
-      {
-        text:'外链',
-        code:"3"
-      }
-     ],
-     isTab:"0",
-     shareTitle:'',
-     dialogFormVisible:false,
-     articlePic:'',
+      title: '悦分享',
+      addtitle: '新增分享',
+      addShareText: '新增分享',
+      ifAdd: true,
+      tableData: [],
+      getTime: '',
+      typeValue: '',
+      ifEdit: '1',
+      // options:[
+      // {
+      //  "value":"hhhh",
+      //  "label":"444444"
+      // }],
+      tabs: [
+        {
+          text: '图文',
+          code: '1'
+        },
+        {
+          text: '投票',
+          code: '2'
+        },
+        {
+          text: '外链',
+          code: '3'
+        }
+      ],
+      isTab: '0',
+      shareTitle: '',
+      dialogFormVisible: false,
+      articlePic: '',
       editor: {
         info: ''
       },
       isClear: false,
-      endTime:"",
-      content:"",
-      addQuestion:"添加问题",
-      changeId:'',
-      allQuestion:[
-      {
-        title:"",
-        type:"1",
-        options:[
+      endTime: '',
+      content: '',
+      addQuestion: '添加问题',
+      changeId: '',
+      allQuestion: [
         {
-          option:'',
+          title: '',
+          type: '1',
+          options: [
+            {
+              option: ''
 
-        },
-         {
-          option:'',
-        },
-         {
-          option:'',
-         }
-        ]
-      }
+            },
+            {
+              option: ''
+            },
+            {
+              option: ''
+            }
+          ]
+        }
       ],
-      opData:[],
-      publishBtn:"确认发布",
-      wztext:'文章标题',
-      wzTitle:'',
-      currentPage:1,
-      totalNum:1,
-      hasdone:false
+      opData: [],
+      publishBtn: '确认发布',
+      wztext: '文章标题',
+      wzTitle: '',
+      currentPage: 1,
+      totalNum: 1,
+      hasdone: false
     }
   },
-  components:{
-    setBtn:setBtn,
-    EditorBar:EditorBar
+  components: {
+    setBtn: setBtn,
+    EditorBar: EditorBar
   },
-  created(){
-    var self = this;
-    self.opData = self.allQuestion;
+  created () {
+    var self = this
+    self.opData = self.allQuestion
     let param = this.qs.stringify({
-      page:self.currentPage
+      page: self.currentPage
     })
-    this.$axios.post('/api/queryShare',param).then(function(res){
-      console.log(res.data,"res.data.list")
-      self.tableData = res.data.list;
-      self.totalNum = res.data.total;
-    }).catch(function(err){
+    this.$axios.post('/api/queryShare', param).then(function (res) {
+      self.tableData = res.data.list
+      self.totalNum = res.data.total
+    }).catch(function (err) {
       console.log(err)
-    });
+    })
+  },
+  computed: {
 
   },
-  computed:{
-
-  },
-  methods:{
-     settype(option){
-      if(option == 1){
-        return  '图文';
-      } else if(option == 2){
-        return  '投票';
-      } else if(option == 3){
+  methods: {
+    settype (option) {
+      if (option === 1) {
+        return '图文'
+      } else if (option === 2) {
+        return '投票'
+      } else if (option === 3) {
         return '外链'
       }
       // console.log(option,"option",row,value)
     },
-    setNum(n,m){
-      console.log(n,m,"kkkkkkkkkkkkkkk");
-      let reg = /^(.*\..{2}).*$/;
-      if(m>0){
-        let num = String(n/m*100).replace(reg ,"$1");
-        return Number(num);
+    setNum (n, m) {
+      console.log(n, m, 'kkkkkkkkkkkkkkk')
+      let reg = /^(.*\..{2}).*$/
+      if (m > 0) {
+        let num = String(n / m * 100).replace(reg, '$1')
+        return Number(num)
       } else {
         return 0
-      }           
+      }
     },
-    changeTab(index){
-      let self = this;
-      self.isTab = index;
+    changeTab (index) {
+      let self = this
+      self.isTab = index
     },
-    uploadFile:function(e){
-      let self = this;
+    uploadFile: function (e) {
+      let self = this
       // console.log(e);
-      this.articlePic = e.target.files[0]; //获取input的图片file值
+      this.articlePic = e.target.files[0] // 获取input的图片file值
 
-      let param = new FormData(); // 创建form对象
-      param.append('url', this.articlePic);//对应后台接收图片名
+      let param = new FormData() // 创建form对象
+      param.append('url', this.articlePic)// 对应后台接收图片名
       // console.log(param);
       let config = {
         headers: {
-          'Accept': 'application/json'              
+          'Accept': 'application/json'
         }
       }
-      this.$axios.post('/api/uploadImage',param,config).then(function(res){
-          // console.log(res.data.imageUrl[0],"tup[ian");
-          self.articlePic = res.data.imageUrl[0];
-         
+      this.$axios.post('/api/uploadImage', param, config).then(function (res) {
+        // console.log(res.data.imageUrl[0],"tup[ian");
+        self.articlePic = res.data.imageUrl[0]
+      })
+        .catch(function (error) {
+          console.log(error)
         })
-        .catch(function(error){
-          console.log(error);
-        });          
     },
-    deletePic(){
-      let self = this;
-      self.articlePic = '';
+    deletePic () {
+      let self = this
+      self.articlePic = ''
     },
-    statehidden(index){
-      let self = this;
+    statehidden (index) {
       // console.log(index,"展开或者收起");
       if (this.$refs.quesChild[index].style.display === 'none') {
-        this.$refs.quesChild[index].style.display = 'block';
-        this.$refs.arrow[index].innerText = "收起";
+        this.$refs.quesChild[index].style.display = 'block'
+        this.$refs.arrow[index].innerText = '收起'
       } else {
-        this.$refs.quesChild[index].style.display = 'none';
-        this.$refs.arrow[index].innerText = "展开";
+        this.$refs.quesChild[index].style.display = 'none'
+        this.$refs.arrow[index].innerText = '展开'
       }
     },
-    addShare(){
-      let self = this;
+    addShare () {
       // console.log("addShare");
-      self.dialogFormVisible = true;
-      self.ifAdd = true;
-      self.addtitle = "新增分享";
-      self.ifEdit = "1";
-      self.isTab = 0;
-      self.shareTitle = '';
-      self.articlePic = '';
-      self.editor.info = '';
-      self.allQuestion = self.opData;
+      this.dialogFormVisible = true
+      this.ifAdd = true
+      this.addtitle = '新增分享'
+      this.ifEdit = '1'
+      this.isTab = 0
+      this.shareTitle = ''
+      this.articlePic = ''
+      this.editor.info = ''
+      this.allQuestion = self.opData
     },
-    addQuestionE(){
-      let self = this;
+    addQuestionE () {
+      let self = this
       // console.log('添加问题',self.allQuestion);
       self.allQuestion.push(
         {
-        title:"",
-        type:"1",
-        options:[
-        {
-          option:'',
-        },
-         {
-          option:'',
-        },
-         {
-          option:'',
-         }
-        ]
-      }
+          title: '',
+          type: '1',
+          options: [
+            {
+              option: ''
+            },
+            {
+              option: ''
+            },
+            {
+              option: ''
+            }
+          ]
+        }
       )
-    },  
-    deleteItem(option,index){
-      let self = this;
+    },
+    deleteItem (option, index) {
+      let self = this
       // console.log(option,index);
-      self.allQuestion.splice(index,1);
+      self.allQuestion.splice(index, 1)
     },
     // 添加选项
-    addCho(n,m){
-      let self = this;
+    addCho (n, m) {
+      let self = this
       // console.log(n,'addCho',self.allQuestion[n].options)
       self.allQuestion[n].options.push({
-        option:'',
+        option: ''
       })
     },
-    deleteCho(n,m){
-      let self = this;
+    deleteCho (n, m) {
+      let self = this
       // console.log(self.allQuestion[n].options.length,m);
-      if(self.allQuestion[n].options.length >2 ){
-        self.allQuestion[n].options.splice(m,1);
+      if (self.allQuestion[n].options.length > 2) {
+        self.allQuestion[n].options.splice(m, 1)
       } else {
         self.$message({
           type: 'success',
           message: '选项不能少于2条!'
-        });    
+        })
       }
-      
     },
-    publish(){
-      let self = this;
-      console.log(self.isTab,self.content)
-      let contents ;
-      if(self.isTab != 2 ){
-        contents = self.editor.info;
-      } else if(self.isTab == 2 ){
-        contents = self.content;
+    publish () {
+      let self = this
+      console.log(self.isTab, self.content)
+      let contents
+      if (self.isTab !== 2) {
+        contents = self.editor.info
+      } else if (self.isTab === 2) {
+        contents = self.content
       };
-      let doneId =[];
+      let doneId = []
       let hasDone = new Promise(function (resolve, reject) {
-
-        for(let i =0; i<self.allQuestion.length ; i++){
-          self.allQuestion[i].options.forEach(function(n,m){
-            if(n.label == null || n.label == '' || n.label == 'undefined'){  
-              // console.log(n,n.value)                         
-              doneId.push(n.value)              
-            } 
+        for (let i = 0; i < self.allQuestion.length; i++) {
+          self.allQuestion[i].options.forEach(function (n, m) {
+            if (n.label == null || n.label === '' || n.label === 'undefined') {
+              // console.log(n,n.value)
+              doneId.push(n.value)
+            }
           })
         };
-        if(self.isTab != 1 ) {
-           resolve()
-         } else if(doneId.length == 0 && self.endTime != ''){
-           resolve()
-         } else {
+        if (self.isTab !== 1) {
+          resolve()
+        } else if (doneId.length === 0 && self.endTime !== '') {
+          resolve()
+        } else {
           self.$message({
             type: 'info',
             message: '请完善选项信息!'
-          });
+          })
         }
-      });
+      })
       hasDone.then(function (value) {
         // console.log(this,self)
         let param = self.qs.parse({
-          type:self.isTab+1,
-          title:self.shareTitle,
-          url:self.articlePic,
-          content:contents,
-          endTime:self.endTime,
-          questionModels: self.allQuestion,
-        });
-        if(self.ifAdd == true){
-          self.$axios.post('/api/addShare',param).then(function(res){
-            self.reload();
-          }).catch(function(ret){
+          type: self.isTab + 1,
+          title: self.shareTitle,
+          url: self.articlePic,
+          content: contents,
+          endTime: self.endTime,
+          questionModels: self.allQuestion
+        })
+        if (self.ifAdd === true) {
+          self.$axios.post('/api/addShare', param).then(function (res) {
+            self.reload()
+          }).catch(function (ret) {
             console.log(ret)
           })
-      
-        } else if(self.ifAdd == false) {
+        } else if (self.ifAdd === false) {
           let paramdata = self.qs.parse({
-            id :self.changeId,
-            type:self.isTab+1,
-            title:self.shareTitle,
-            url:self.articlePic,
+            id: self.changeId,
+            type: self.isTab + 1,
+            title: self.shareTitle,
+            url: self.articlePic,
             content: contents,
-            endTime:self.endTime,
+            endTime: self.endTime,
             questionModels: self.allQuestion
-          });
+          })
           // console.log(self.allQuestion,"self.allQuestion")
-          self.$axios.post('/api/updateShare',paramdata).then(function(res){
-            self.reload();
-          }).catch(function(ret){
-            
+          self.$axios.post('/api/updateShare', paramdata).then(function (res) {
+            self.reload()
+          }).catch(function (ret) {
+
           })
         }
         // console.log(self.isTab+1,self.shareTitle,self.articlePic,self.editor.info,self.endTime,self.allQuestion,"allQuestion");
-        }).catch(function (error) {
-          console.log(error)
-        })              
+      }).catch(function (error) {
+        console.log(error)
+      })
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
     },
-    handleCurrentChange(val) {
-      let self = this;
+    handleCurrentChange (val) {
+      let self = this
       // console.log(`当前页: ${val}`,val);
       let param = this.qs.stringify({
-        'page':val     
-      }); 
-      this.$axios.post('/api/queryShare',param).then(function(res){
-        self.tableData = res.data.list;
-      }).catch(function(ret){
+        'page': val
+      })
+      this.$axios.post('/api/queryShare', param).then(function (res) {
+        self.tableData = res.data.list
+      }).catch(function (ret) {
         console.log(ret)
       })
     },
-    //编辑 
-    handleEdit(option){
-      let self = this;
-      self.dialogFormVisible = true;
-      self.ifEdit = "1";
-      self.ifAdd = false;
-      self.addtitle = "修改内容";
-      self.isTab = option.type -1;
-      self.changeId = option.id;
+    // 编辑
+    handleEdit (option) {
+      let self = this
+      self.dialogFormVisible = true
+      self.ifEdit = '1'
+      self.ifAdd = false
+      self.addtitle = '修改内容'
+      self.isTab = option.type - 1
+      self.changeId = option.id
       let param = this.qs.stringify({
         id: option.id,
-        type:option.type
+        type: option.type
       })
-      this.$axios.post('/api/getShare',param).then(function(res){
+      this.$axios.post('/api/getShare', param).then(function (res) {
         // console.log(res.data,"res.data",);
-        self.editor.info = res.data.content;
-        self.shareTitle = res.data.title;
-        self.endTime =  res.data.endTime;
-        self.articlePic = res.data.url;
-        self.content = res.data.content;
-        if(res.data.type == 2){
-           // console.log(res.data.questionModels,"res.data.questionModels")
-          self.allQuestion = res.data.questionModels;
+        self.editor.info = res.data.content
+        self.shareTitle = res.data.title
+        self.endTime = res.data.endTime
+        self.articlePic = res.data.url
+        self.content = res.data.content
+        if (res.data.type === 2) {
+          // console.log(res.data.questionModels,"res.data.questionModels")
+          self.allQuestion = res.data.questionModels
           // self.allQuestion.options.ifDevelop=true;
-        } 
-      }).catch(function(ret){
+        }
+      }).catch(function (ret) {
         console.log(ret)
       })
     },
     // 添加选项
-    
+
     // 删除
-    delectEdit(option){
-      let self = this;
+    delectEdit (option) {
+      let self = this
       // console.log(option);
       let param = this.qs.stringify({
-        id:option.id,
-        type:option.type     
-      }); 
-       this.$confirm('此操作将永久清除数据, 是否继续?', '提示', {
+        id: option.id,
+        type: option.type
+      })
+      this.$confirm('此操作将永久清除数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.post('/api/deleteShare',param).then(function(res){
-         // console.log(res,'res');
-         self.reload();        
+        this.$axios.post('/api/deleteShare', param).then(function (res) {
+          // console.log(res,'res');
+          self.reload()
           self.$message({
             type: 'success',
             message: '删除成功!'
-          });                  
-        }).catch(function(ret){
-          console.log(ret,"ret");
+          })
+        }).catch(function (ret) {
+          console.log(ret, 'ret')
           self.$message({
-              type: 'error',
-              message: '删除失败!'
-            });
+            type: 'error',
+            message: '删除失败!'
+          })
         })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
-      });    
-    },
-    format(){
-       return percentage === 100 ? '满' : `${percentage}%`;
-    },
-    // 查看投票情况
-    checkVote(option){
-      let self = this;
-      self.dialogFormVisible = true;
-      self.ifEdit = "2";
-      self.addtitle = "查看投票";
-      // console.log(option ,'查看投票情况');
-       let param = this.qs.stringify({
-        id: option.id,
-        type:option.type
+        })
       })
-      this.$axios.post('/api/getShare',param).then(function(res){
-        
-        self.shareTitle = res.data.title;
-        self.allQuestion = res.data.questionModels;
-        
+    },
+    // format () {
+    //   return percentage === 100 ? '满' : `${percentage}%`
+    // },
+    // 查看投票情况
+    checkVote (option) {
+      let self = this
+      self.dialogFormVisible = true
+      self.ifEdit = '2'
+      self.addtitle = '查看投票'
+      // console.log(option ,'查看投票情况');
+      let param = this.qs.stringify({
+        id: option.id,
+        type: option.type
+      })
+      this.$axios.post('/api/getShare', param).then(function (res) {
+        self.shareTitle = res.data.title
+        self.allQuestion = res.data.questionModels
 
         // console.log(res.data.questionModels[0]);
         // for(let i =0; i<self.allQuestion.length; i++){
@@ -636,10 +624,8 @@ export default {
         //     self.allQuestion[i].options[n].ticket = self.allQuestion[i].options[n].ticket /self.allQuestion[i].ticketTotal*100
         //  }
         // }
-       
-       
-      }).catch(function(ret){
-        console.log(ret);
+      }).catch(function (ret) {
+        console.log(ret)
       })
     }
 
@@ -667,7 +653,7 @@ export default {
       line-height: 60px;
       .leftBtn{
         width: 300px;
-        float: left; 
+        float: left;
       }
       .rightSec{
         width: 600px;
@@ -677,7 +663,7 @@ export default {
         text-align: right;
       }
     }
-    
+
   }
 
   .showwz{
@@ -716,18 +702,18 @@ export default {
       height: 34px;
       float: left;
       line-height: 34px;
-     
+
     }
     .xxx-box70{
       width: calc(100% - 90px);
       float: right;
-      
-    }   
+
+    }
     .xxx-box60{
       width: calc(100% - 180px);
       float: left;
     }
-    
+
   }
     .border{
       border:1px solid #DDDDDD;
@@ -748,7 +734,7 @@ export default {
      input[type=file] {
        position:absolute;
        opacity: 0;
-       z-index: 1000;    
+       z-index: 1000;
        width: 100%;
        height: 100%;
        top:0;
@@ -806,7 +792,6 @@ export default {
     padding:0 10px;
     span{
       display: inline-block;
-      float: right;
       padding:0 10px;
       font-size: 12px;
       cursor: pointer;
@@ -831,7 +816,7 @@ export default {
  .checkvoteBox{
   position:relative;
   width: 100%;
-  padding: 10px 20px 50px; 
+  padding: 10px 20px 50px;
   ul{
     position:relative;
     width: 100%;

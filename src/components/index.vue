@@ -10,7 +10,7 @@
          </el-form-item>
          <el-form-item required prop="passWord" status-icon style=" width: 318px;">
             <el-input v-model="loginInfo.passWord" type="password" placeholder="请输入密码"></el-input>
-         </el-form-item>       
+         </el-form-item>
        </el-form>
        <div class ="loginbtn" @click="getLogin"> 登陆</div>
      </div>
@@ -22,46 +22,44 @@ export default {
   name: 'login',
   data () {
     return {
-      loginPic:require('../assets/icon_picclogo.png'),
-      loginInfo:{
-        userName:'',
-        passWord:''
+      loginPic: require('../assets/icon_picclogo.png'),
+      loginInfo: {
+        userName: '',
+        passWord: ''
       }
     }
   },
-  methods:{
-     handleInput (e){
-      console.log(e.target.value,handleInput)
-      this.$emit('input', e.target.value);
+  methods: {
+    handleInput (e) {
+      this.$emit('input', e.target.value)
     },
-    getLogin(){
-      let self = this;
+    getLogin () {
+      let self = this
       let param = this.qs.stringify({
-        u:self.loginInfo.userName,
-        p:self.loginInfo.passWord
-      });
+        u: self.loginInfo.userName,
+        p: self.loginInfo.passWord
+      })
       this.$store.dispatch('Login', param)
         .then(() => {
           console.log(localStorage.getItem('userId'))
           // this.$axios.post('')
-         this.$axios.post('/api/showMenus',
-          this.qs.stringify({userId:localStorage.getItem('userId')})).then(res=>{
+          this.$axios.post('/api/showMenus',
+            this.qs.stringify({userId: localStorage.getItem('userId')})).then(res => {
           // console.log(res.data.data.children[0].children[0].hrefTarget,"侧边导航indes");
           // self.allNav = res.data.data.children;
-          if(res.data.data && res.data.data.children[0] && res.data.data.children[0].children[0] ){
-            this.$router.push({ path: res.data.data.children[0].children[0].hrefTarget });
-          } else {
-           
-          }
-        }).catch(ret=>{
-          console.log(ret)
-        })
+            if (res.data.data && res.data.data.children[0] && res.data.data.children[0].children[0]) {
+              this.$router.push({ path: res.data.data.children[0].children[0].hrefTarget })
+            } else {
+
+            }
+          }).catch(ret => {
+            console.log(ret)
+          })
         })
         .catch((error) => {
-          console.log(error.response,"kdkdkdkdh"); 
-        });
-     
-    },
+          console.log(error.response, 'kdkdkdkdh')
+        })
+    }
     //  toLogin(){
     //   let self = this;
     //  //其他的校验逻辑
@@ -72,7 +70,7 @@ export default {
     //    ).then(res => {
     //     console.log(res,"登陆",this.$store)
     //    //登录失败,先不讨论
-     
+
     //      //设置Vuex登录标志为true，默认userLogin为false
     //      // this.$store.dispatch("isLogin", true);
     //      //Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
@@ -82,9 +80,9 @@ export default {
     //      // this.$Message.success(res.data.message);
     //      //登录成功后跳转到指定页面
     //      this.$router.push("/home");
-       
+
     // });
-      
+
     // }
   }
 }

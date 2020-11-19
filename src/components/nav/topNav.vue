@@ -11,20 +11,16 @@
 
 <script>
 export default {
-  props:['loginOutE'],
+  props: ['loginOutE', 'userName'],
   name: 'topNav',
-   props:['userName'],
   data () {
     return {
-     // userName:"maind",
-     bgPic:require("../../assets/img_picclogo.png")
+      bgPic: require('../../assets/img_picclogo.png')
     }
   },
-  methods:{
-    loginOut(){
+  methods: {
+    loginOut () {
       this.$emit('loginOutE')
-      // let self = this;
-      
     }
   }
 }

@@ -1,28 +1,28 @@
 <template>
   <div class="staffL">
-    
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'staffL',
-     
-  props:['staffLData','handleEditL','delectEditL','choiceEditL','lableName','getName'],
+
+  props: ['staffLData', 'handleEditL', 'delectEditL', 'choiceEditL', 'lableName', 'getName'],
   data () {
     return {
-     
+
     }
   },
-  methods:{
-    handleEdit(id){
-      this.$emit('handleEditL',id);
+  methods: {
+    handleEdit (id) {
+      this.$emit('handleEditL', id)
     },
-    delectEdit(id){
-      this.$emit('delectEditL',id);
+    delectEdit (id) {
+      this.$emit('delectEditL', id)
     },
-    choiceEdit(id){
-      this.$emit('choiceEditL',id);
+    choiceEdit (id) {
+      this.$emit('choiceEditL', id)
     }
   }
 }

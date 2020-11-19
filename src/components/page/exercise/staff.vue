@@ -15,7 +15,7 @@
         <setBtn :btnText = "searchText" @btnEvent ="searchE"></setBtn>
         <!-- <el-button type="primary" @click="" color="#F54F32">查询</el-button> -->
       </el-form-item>
-    </el-form> 
+    </el-form>
 
     <div class="btnBox clear">
       <setBtn :btnText = "addText" @btnEvent ="addStaff"></setBtn>
@@ -93,11 +93,11 @@
           label="电话医生次数"
           width="105">
         </el-table-column>
-        <el-table-column   label="操作"  width="100">  
+        <el-table-column   label="操作"  width="100">
           <template slot-scope="scope">
             <span class="btn blue_btn" @click="handleEdit(scope.row)">编辑</span>
             <span class="btn red_btn" @click="delectEdit(scope.row)">删除</span>
-          </template>   
+          </template>
         </el-table-column>
       </el-table>
     <div style="margin-top: 20px">
@@ -130,72 +130,72 @@
           <setBtn :btnText = "subText" @btnEvent ="submit"></setBtn>
         </div> -->
       </div>
-    </el-dialog> 
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import setBtn from '../../part/btn'
-  import setInput from '../../part/setinput'
-  import addInfo from './addInfo'
+import setBtn from '../../part/btn'
+import setInput from '../../part/setinput'
+import addInfo from './addInfo'
 export default {
   name: 'staff',
-  inject:['reload'],
+  inject: ['reload'],
   data () {
     return {
-     "title":"员工管理",
+      'title': '员工管理',
       formInline: {
         getPhone: '',
         getHRcode: '',
-        getuserName:''
-      },    
-     searchText:"查询",
-     addText:'添加员工',
-     deleteText:"删除",
-     isnew:'',
-     ifAdd:false,
-     staffData:[],
-     multipleSelection:[],
-     staffInfos:[],
-     currentPage:1,
-     totalNum:1,
-     choSelection:[],
-     attenceFile: {}
+        getuserName: ''
+      },
+      searchText: '查询',
+      addText: '添加员工',
+      deleteText: '删除',
+      isnew: '',
+      ifAdd: false,
+      staffData: [],
+      multipleSelection: [],
+      staffInfos: [],
+      currentPage: 1,
+      totalNum: 1,
+      choSelection: [],
+      attenceFile: {}
     }
   },
-  components:{
-    setBtn:setBtn,
-    setInput:setInput,
-    addInfo:addInfo
+  components: {
+    setBtn: setBtn,
+    setInput: setInput,
+    addInfo: addInfo
   },
-  created(){
-    let self = this;
+  created () {
+    let self = this
     let param = this.qs.stringify({
-       page:self.currentPage,
-       limit:15
-    });
-    this.$axios.post('/api/queryUserList',param).then(function(res){
-      console.log(res.data);
-      self.staffData = res.data.data;
+      page: self.currentPage,
+      limit: 15
+    })
+    this.$axios.post('/api/queryUserList', param).then(function (res) {
+      console.log(res.data)
+      self.staffData = res.data.data
       self.totalNum = res.data.total
-    }).catch(function(ret){
-      console.log(ret);
+    }).catch(function (ret) {
+      console.log(ret)
     })
   },
-  methods:{
-    addStaff(){
-      let self = this;
-      self.ifAdd = true;
-      self.isnew = '';
+  methods: {
+    addStaff () {
+      let self = this
+      self.ifAdd = true
+      self.isnew = ''
       // this.$refs['staffInfo'].resetFields();
       // self.staffInfos =[];
     },
-    deteleStaff(){
-      let self = this;
+    deteleStaff () {
+      let self = this
       self.multipleSelection.forEach(val => {
-        self.choSelection.push(val.userId);
-      });
-      let newData = Array.from(new Set(self.choSelection));
+        self.choSelection.push(val.userId)
+      })
+      let newData = Array.from(new Set(self.choSelection))
       this.$confirm('此操作将永久清除数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -203,28 +203,28 @@ export default {
       }).then(() => {
         this.$axios.post('api/delUserList',
           this.qs.stringify(
-          {
-            user_id:newData.join() 
-          })
-        ).then(function(res){
-          console.log(res,"删除");
+            {
+              user_id: newData.join()
+            })
+        ).then(function (res) {
+          console.log(res, '删除')
           self.$message({
             type: 'success',
             message: '全部清空!'
-          });
-        }).catch(function(ret){
-           console.log(ret)
-        })      
+          })
+        }).catch(function (ret) {
+          console.log(ret)
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
-      });           
+        })
+      })
     },
-    renderTime(date) {
-      let dateee = new Date(date).toJSON();
-      return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '') 
+    renderTime (date) {
+      let dateee = new Date(date).toJSON()
+      return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
     },
     // toggleSelection(rows){
     //   console.log(rows,"rows")
@@ -237,142 +237,138 @@ export default {
     //     this.$refs.multipleTable.clearSelection();
     //   }
     // },
-    handleSelectionChange(val){
-      var self = this;
-      self.multipleSelection = val;
-      console.log(val,"select",this.multipleSelection);
+    handleSelectionChange (val) {
+      var self = this
+      self.multipleSelection = val
+      console.log(val, 'select', this.multipleSelection)
       val.forEach(val => {
-        self.choSelection.push(val.userId);
-      });
-      
+        self.choSelection.push(val.userId)
+      })
     },
-    handleEdit(option){
-      let self = this;
-      console.log(option.userId,"编辑");
-      self.isnew = option.userId;
-      self.ifAdd = true;
+    handleEdit (option) {
+      let self = this
+      console.log(option.userId, '编辑')
+      self.isnew = option.userId
+      self.ifAdd = true
     },
-    //删除
-    delectEdit(option){
-      let self = this;
-      console.log(option.userId,'delectEdit');
+    // 删除
+    delectEdit (option) {
+      let self = this
+      console.log(option.userId, 'delectEdit')
       let param = this.qs.stringify({
         'user_id': option.userId
-      });
+      })
       this.$confirm('此操作将永久清除数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.post('/api/delUser',param).then(function(res){
-          console.log(res,"删除");
+        this.$axios.post('/api/delUser', param).then(function (res) {
+          console.log(res, '删除')
           self.$message({
             type: 'success',
             message: '删除成功!'
-          });
-          self.reload();
-        }).catch(function(ret){
-           console.log(ret)
-        })      
+          })
+          self.reload()
+        }).catch(function (ret) {
+          console.log(ret)
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
-      });           
+        })
+      })
     },
-    //批量导入
-    changeFile(e){
-      let self = this;
-      let repeatRowNum = [] ;
-      let wrongRowNum = [] ;
-      let repeatText,wrongText;
-      self.attenceFile = e.target.files[0];
-      let param = new FormData(); //创建form对象
-        param.append('filename',self.attenceFile);//通过append向form对象添加数据
-      console.log(self.attenceFile,param);
+    // 批量导入
+    changeFile (e) {
+      let self = this
+      let repeatRowNum = []
+      let wrongRowNum = []
+      let repeatText
+      self.attenceFile = e.target.files[0]
+      let param = new FormData() // 创建form对象
+      param.append('filename', self.attenceFile)// 通过append向form对象添加数据
+      console.log(self.attenceFile, param)
       this.$alert('', '批量导入员工信息', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
         callback: action => {
-          // console.log(11111,self.step,self.attenceFile,"+++++++++++++++",param);          
+          // console.log(11111,self.step,self.attenceFile,"+++++++++++++++",param);
           let config = {
             headers: {
-              'Content-Type': 'multipart/form-data'              
+              'Content-Type': 'multipart/form-data'
             }
           }
           this.$axios.post('/api/importExcel',
             param,
             config
-            ).then(res=>{
-            console.log(res.data.data,"PPPPPPPPPPPPPapi/importExcel");
-            if(res.data.data){
-              res.data.data.forEach(function(i,n){
+          ).then(res => {
+            if (res.data.data) {
+              res.data.data.forEach(function (i, n) {
                 // console.log(i.rowType,n);
-                if(i.rowType == 1){
+                if (i.rowType === 1) {
                   repeatRowNum.push(i.row)
-                } else{
-                  wrongRowNum.push(i.row);
+                } else {
+                  wrongRowNum.push(i.row)
                 }
                 // console.log(repeatRowNum,wrongRowNum,"wrongRowNum")
               })
             }
-            console.log(repeatRowNum,wrongRowNum,"wrongRowNum");
-            if(repeatRowNum.length > 0) {
-              repeatText = ' 第'+repeatRowNum.join(',')+'行重复！ '
-            } else{
-              repeatText =''
+            console.log(repeatRowNum, wrongRowNum, 'wrongRowNum')
+            if (repeatRowNum.length > 0) {
+              repeatText = ' 第' + repeatRowNum.join(',') + '行重复！ '
+            } else {
+              repeatText = ''
             }
-            if(wrongRowNum.length > 0) {
-              wrongRowNum = ' 第'+wrongRowNum.join(',')+'行信息有误! '
-            } else{
-              wrongRowNum =''
+            if (wrongRowNum.length > 0) {
+              wrongRowNum = ' 第' + wrongRowNum.join(',') + '行信息有误! '
+            } else {
+              wrongRowNum = ''
             }
             this.$message({
               type: 'error',
-              message: 'excel中' + repeatText + wrongRowNum ,
-              duration : 10000
-            }); 
-            this.$refs.attenceInput.value = null; 
-            self.attenceFile ="";
-          }).catch(ret =>{
-            console.log(ret);
-            self.attenceFile ="";
+              message: 'excel中' + repeatText + wrongRowNum,
+              duration: 10000
+            })
+            this.$refs.attenceInput.value = null
+            self.attenceFile = ''
+          }).catch(ret => {
+            console.log(ret)
+            self.attenceFile = ''
           })
         }
-      });    
-    },
-    searchE(){
-      let self = this;
-      console.log(1455,self.formInline.getPhone,self.formInline.getHRcode);
-      var param = this.qs.stringify({
-        'hrCode':self.formInline.getHRcode,
-        'phone':self.formInline.getPhone,
-        'userName':self.formInline.getuserName      
-      }); 
-      console.log(param,"pppp+++++++++",self.getHRcode)
-      this.$axios.post('/api/queryUserList',param).then(function(res){
-        console.log(res.data.data,"查询");
-        self.staffData = res.data.data;
-      }).catch(function(ret){
-        console.log(ret);
       })
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+    searchE () {
+      let self = this
+      console.log(1455, self.formInline.getPhone, self.formInline.getHRcode)
+      var param = this.qs.stringify({
+        'hrCode': self.formInline.getHRcode,
+        'phone': self.formInline.getPhone,
+        'userName': self.formInline.getuserName
+      })
+      console.log(param, 'pppp+++++++++', self.getHRcode)
+      this.$axios.post('/api/queryUserList', param).then(function (res) {
+        self.staffData = res.data.data
+      }).catch(function (ret) {
+        console.log(ret)
+      })
     },
-    handleCurrentChange(val) {
-      let self = this;
-      console.log(`当前页: ${val}`,val);
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange (val) {
+      let self = this
+      console.log(`当前页: ${val}`, val)
       let param = this.qs.stringify({
-        'page':val,
-        limit :15    
-      }); 
-      this.$axios.post('/api/queryUserList',param).then(function(res){
-        console.log(res.data,"pppppp");
-        self.staffData = res.data.data;
-      }).catch(function(ret){
+        'page': val,
+        limit: 15
+      })
+      this.$axios.post('/api/queryUserList', param).then(function (res) {
+        self.staffData = res.data.data
+      }).catch(function (ret) {
         console.log(ret)
       })
     }
@@ -391,7 +387,7 @@ export default {
     width: 100%;
     line-height: 30px;
     color: #222222;
-    padding-bottom: 10px; 
+    padding-bottom: 10px;
     border-bottom: 1px solid rgba(238,238,238,1);
     margin-bottom: 10px;
   }
@@ -404,7 +400,7 @@ export default {
   position:relative;
   height: auto;
   min-width: 990px;
-  
+
  }
  .subBtn{
   height: 50px;
@@ -418,7 +414,6 @@ export default {
   display: inline-block;
   width: 200px;
   height: 50px;
-  float: right;
   text-align: right;
   input{
     position:relative;

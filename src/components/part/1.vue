@@ -44,51 +44,77 @@
   </div>
 </template>
 <script>
-  import YFooter from '/common/footer'
-  import YHeader from '/common/header'
- 
-  export default {
-    data () {
-      return {
-        show: true,
-        title: '学院介绍',
-        nav: [
-          {name: '学院介绍',
-            isActive: false,
-            secondNav: true, // 是否存在二级菜单,true为存在
-            // path: 'background',
-            navSecond: [
-                {name: '创建背景', path: 'background'},
-                {name: '创建单位', path: 'unit'},
-                {name: '创建目的'},
-                {name: '管理单位'},
-                {name: '运行主体'}
-            ]
-          },
-          {name: '关于我们', path: 'aboutMe', isActive: false, secondNav: false}
-        ]
-      }
+import YFooter from '/common/footer'
+import YHeader from '/common/header'
+
+export default {
+  data () {
+    return {
+      show: true,
+      title: '学院介绍',
+      nav: [
+        {name: '学院介绍',
+          isActive: false,
+          secondNav: true, // 是否存在二级菜单,true为存在
+          // path: 'background',
+          navSecond: [
+            {name: '创建背景', path: 'background'},
+            {name: '创建单位', path: 'unit'},
+            {name: '创建目的'},
+            {name: '管理单位'},
+            {name: '运行主体'}
+          ]
+        },
+        {name: '关于我们', path: 'aboutMe', isActive: false, secondNav: false}
+      ]
+    }
+  },
+  computed: {
+  },
+  methods: {
+    tabSecond (e) {
+      this.$router.push({path: '/college/' + e.path})
     },
-    computed: {
-    },
-    methods: {
-      tabSecond (e) {
-        this.$router.push({path: '/college/' + e.path})
-      },
-      tabPrimary (e) {
-        let path = this.$route.path.split('/')[2]
-        if (e.secondNav) {
+    tabPrimary (e) {
+      let path = this.$route.path.split('/')[2]
+      if (e.secondNav) {
         //   this.show = !this.show
-          if (path === 'aboutMe') {
-            this.$router.push({path: '/college/' + e.navSecond[0].path})
+        if (path === 'aboutMe') {
+          this.$router.push({path: '/college/' + e.navSecond[0].path})
+        }
+      } else {
+        this.$router.push({path: '/college/' + e.path})
+      }
+    }
+  },
+  created () {
+    let path = this.$route.path.split('/')[2]
+    this.nav.forEach(item => {
+      item.isActive = false
+      if (item.secondNav) {
+        item.navSecond.forEach(itemT => {
+          if (itemT.path === path) {
+            this.title = itemT.name
+            if (itemT.name === this.title) {
+              item.isActive = true // 当属于子菜单时，父菜单高亮
+            }
           }
-        } else {
-          this.$router.push({path: '/college/' + e.path})
+        })
+      } else {
+        if (item.path === path) {
+          this.title = item.name
+          item.isActive = true
         }
       }
-    },
-    created () {
-      let path = this.$route.path.split('/')[2]
+    })
+  },
+  components: {
+    YFooter,
+    YHeader
+  },
+  watch: {
+    $route (to) {
+      let path = to.path.split('/')[2]
       this.nav.forEach(item => {
         item.isActive = false
         if (item.secondNav) {
@@ -107,35 +133,9 @@
           }
         }
       })
-    },
-    components: {
-      YFooter,
-      YHeader
-    },
-    watch: {
-      $route (to) {
-        let path = to.path.split('/')[2]
-        this.nav.forEach(item => {
-          item.isActive = false
-          if (item.secondNav) {
-            item.navSecond.forEach(itemT => {
-              if (itemT.path === path) {
-                this.title = itemT.name
-                if (itemT.name === this.title) {
-                  item.isActive = true // 当属于子菜单时，父菜单高亮
-                }
-              }
-            })
-          } else {
-            if (item.path === path) {
-              this.title = item.name
-              item.isActive = true
-            }
-          }
-        })
-      }
     }
   }
+}
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "../../assets/style/mixin";

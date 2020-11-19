@@ -12,19 +12,18 @@
 
 <script>
 export default {
-  props:['text','inputValue'],
+  props: ['text', 'inputValue'],
   name: 'setInput',
   data () {
     return {
-      
+
     }
   },
-  components:{
+  components: {
     // topNav:topNav
   },
-  methods:{
-    
-     
+  methods: {
+
   }
 }
 </script>
@@ -37,7 +36,7 @@ export default {
     margin: 5px;
     float: left;
     margin-right:3.2% ;
-    
+
   }
   .settwo{
     width: 48%;

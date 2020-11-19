@@ -4,83 +4,78 @@
       <!-- {{allNav}} -->
     </div>
     <div class="scrollbar">
-      <div class="one_nav" v-for="(item , index) in allNav" :key='index' >       
+      <div class="one_nav" v-for="(item , index) in allNav" :key='index' >
         <h1 @click="showUl($event,index,item.checked)"> {{item.text}}</h1>
         <ul v-if="item.checked == false">
-          <li v-for="a in item.children" @click="showP(a.hrefTarget)" :class="{ active : a.hrefTarget === $route.path  }"> 
+          <li v-for="(a,b) in item.children" :key="b" @click="showP(a.hrefTarget)" :class="{ active : a.hrefTarget === $route.path  }">
             <router-link :to="a.hrefTarget">{{a.text}}</router-link>
           </li>
         </ul>
-      </div>   
+      </div>
     </div>
-   
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'leftNav',
-  props:['showCon','allNav'],
+  props: ['showCon', 'allNav'],
   data () {
     return {
-      clientHeight:''
+      clientHeight: ''
 
-     
     }
   },
-  created(){   
-    let self = this; 
-    
+  created () {
+
     // console.log(this.$route.path,'{{{{{{{{{{{{{lkdjjjjjjjjjjjj',localStorage.getItem('userId'));
     // const userId = localStorage.getItem('userId');
     // this.$axios.post('/api/showMenus',this.qs.stringify({userId:userId})).then(res=>{
     //   // console.log(res.data.data.children[0],"侧边导航");
     //   self.allNav = res.data.data.children;
-      
+
     // }).catch(ret=>{
     //   console.log(ret)
     // })
-
   },
   watch: {
-   
+
     // 如果 `clientHeight` 发生改变，这个函数就会运行
     // clientHeight: function () {
     //   this.changeFixed(this.clientHeight)
     // }
   },
-  mounted(){
-      // 获取浏览器可视区域高度
-      // this.clientHeight =   `${document.documentElement.clientHeight}`          //document.body.clientWidth;
-      // //console.log(self.clientHeight);
-      // window.onresize = function temp() {
-      //   this.clientHeight = `${document.documentElement.clientHeight}`;
-      // };
+  mounted () {
+    // 获取浏览器可视区域高度
+    // this.clientHeight =   `${document.documentElement.clientHeight}`          //document.body.clientWidth;
+    // //console.log(self.clientHeight);
+    // window.onresize = function temp() {
+    //   this.clientHeight = `${document.documentElement.clientHeight}`;
+    // };
+  },
+
+  methods: {
+    showP (option) {
+      this.$emit('showCon', option)
     },
-    
-    methods:{
-      showP (option){
-        let self = this;
-        this.$emit('showCon',option)
-      },
-      showUl(e,index,twoShow){
-        console.log(e,index,twoShow,"pppp");
-        // this.twoShow = index;
-        if(twoShow !== true){
-          console.log(this.allNav[index].checked)
-          this.allNav[index].checked = true;
-        } else {
-          console.log(2222)
-          this.allNav[index].checked = false;
-        }
-
+    showUl (e, index, twoShow) {
+      console.log(e, index, twoShow, 'pppp')
+      // this.twoShow = index;
+      if (twoShow !== true) {
+        console.log(this.allNav[index].checked)
+        this.allNav[index].checked = true
+      } else {
+        console.log(2222)
+        this.allNav[index].checked = false
       }
-      // changeFixed(clientHeight){                        //动态修改样式
-      //   console.log(clientHeight,this.$refs.leftNav.offsetHeight);
-      //  this.$refs.leftNav.offsetHeight < clientHeight ? this.$refs.leftNav.style.height = clientHeight - 60 +'px' : this.$refs.leftNav.style.height = 'auto';
-
-      // },
     }
+    // changeFixed(clientHeight){                        //动态修改样式
+    //   console.log(clientHeight,this.$refs.leftNav.offsetHeight);
+    //  this.$refs.leftNav.offsetHeight < clientHeight ? this.$refs.leftNav.style.height = clientHeight - 60 +'px' : this.$refs.leftNav.style.height = 'auto';
+
+    // },
+  }
 }
 </script>
 
@@ -90,11 +85,11 @@ export default {
   position: fixed;
   width: 150px;
   height: auto;
-  background: #364150;  
+  background: #364150;
   top: 0;
   bottom: 0;
   margin-top: 60px;
-  transition: padding-top .3s; 
+  transition: padding-top .3s;
   overflow: hidden;
   // .scrollbar{
   //   height: 100%;
@@ -102,11 +97,11 @@ export default {
   //   overflow: scroll;
   //   // margin-top: 17px;
   //   // margin-right: 17px;
-  // } 
+  // }
   .one_nav{
     position:relative;
     width: 100%;
-    height: auto;    
+    height: auto;
     h1{
       height: 60px;
       width: 100%;
@@ -119,12 +114,12 @@ export default {
     ul{
       position:relative;
       background:#5A6473;
-      
+
       li{
         height: 40px;
         line-height: 40px;
         text-align: left;
-        padding-left: 50px; 
+        padding-left: 50px;
 
         a{
           color: #fff;
@@ -135,6 +130,6 @@ export default {
       }
     }
   }
-  
+
 }
 </style>

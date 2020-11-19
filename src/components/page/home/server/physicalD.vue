@@ -30,7 +30,7 @@
          label="年龄"
          width="100">
        </el-table-column>
-       
+
        <el-table-column
          prop="tj_hrCode"
          label="hr代码">
@@ -53,7 +53,7 @@
          label="提交时间"
          width="180">
        </el-table-column>
-       <el-table-column  width="120"  label="操作">  
+       <el-table-column  width="120"  label="操作">
          <template slot-scope="scope">
            <el-button
            size="mini"
@@ -62,7 +62,7 @@
            >
              删除
            </el-button>
-         </template>   
+         </template>
        </el-table-column>
      </el-table>
   </div>
@@ -71,15 +71,15 @@
 <script>
 export default {
   name: 'physicalD',
-  props:['physicalD',"deleteTjList"],
+  props: ['physicalD', 'deleteTjList'],
   data () {
     return {
-    
+
     }
   },
-  methods:{
-    deletetjTr(id){
-      this.$emit('deleteTjList',id)
+  methods: {
+    deletetjTr (id) {
+      this.$emit('deleteTjList', id)
     }
   }
 }
@@ -89,7 +89,3 @@ export default {
 <style scoped>
 
 </style>
-
-
-
-

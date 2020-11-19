@@ -41,17 +41,14 @@
 // }
 import { Message } from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
- 
-  // let $msgbox = Message;//方法都需要定义后使用
-  // let $alert = Message.alert;
-//直接$alert()的方式使用即可（注意不是this.$alert()）,组件中使用仍需要再main.js配置
 
+// let $msgbox = Message;//方法都需要定义后使用
+// let $alert = Message.alert;
+// 直接$alert()的方式使用即可（注意不是this.$alert()）,组件中使用仍需要再main.js配置
 
-import Vue from 'vue';
-import Vuex from 'vuex';
-import axios from 'axios';
-import  ElementUI from 'element-ui'
-
+import Vue from 'vue'
+import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -62,57 +59,57 @@ const store = new Vuex.Store({
     user: {}
   },
   mutations: {
-    auth_request(state) {
-      state.status = 'loading';
+    auth_request (state) {
+      state.status = 'loading'
     },
-    auth_success(state, token, user) {
-      state.status = 'success';
-      state.token = token;
-      state.user = user;
+    auth_success (state, token, user) {
+      state.status = 'success'
+      state.token = token
+      state.user = user
     },
-    auth_error(state) {
-      state.status = 'error';
+    auth_error (state) {
+      state.status = 'error'
     },
-    logout(state) {
-      state.status = ''; 
-      state.token = '';
-    },
+    logout (state) {
+      state.status = ''
+      state.token = ''
+    }
   },
   actions: {
-    Login({commit}, param) {
+    Login ({commit}, param) {
       return new Promise((resolve, reject) => {
-      commit('auth_request')
-      // 向后端发送请求，验证用户名密码是否正确，请求成功接收后端返回的token值，利用commit修改store的state属性，并将token存放在localStorage中
-      axios.post('/api/login', param)
-        .then(res => {
-           // console.log(res,"resp");
-         if(res.data.statusText == 'false'){
-             Message('账号或者密码错误');
-          }          
-          const token = res.data.data.token
-          const user = res.data.data.userName
-          const userId = res.data.data.userId
-          // console.log(userId,"[[[[[[[[")
-          localStorage.setItem('token', token);
-          localStorage.setItem('userId', userId);
-          localStorage.setItem('name', user);
-           // localStorage.setItem('token', token);
-          // console.log(localStorage.getItem('token'),"jfjfjfjfjfkk")
-          // 每次请求接口时，需要在headers添加对应的Token验证
-          axios.defaults.headers.common['Authorization'] = token
-          // 更新token
-          commit('auth_success', token, user)
-          resolve(res)
-        })
-        .catch(err => {
-          commit('auth_error')
-          localStorage.removeItem('token');
-          localStorage.removeItem('userId')
-          reject(err)
-        })
+        commit('auth_request')
+        // 向后端发送请求，验证用户名密码是否正确，请求成功接收后端返回的token值，利用commit修改store的state属性，并将token存放在localStorage中
+        axios.post('/api/login', param)
+          .then(res => {
+            // console.log(res,"resp");
+            if (res.data.statusText === 'false') {
+              Message('账号或者密码错误')
+            }
+            const token = res.data.data.token
+            const user = res.data.data.userName
+            const userId = res.data.data.userId
+            // console.log(userId,"[[[[[[[[")
+            localStorage.setItem('token', token)
+            localStorage.setItem('userId', userId)
+            localStorage.setItem('name', user)
+            // localStorage.setItem('token', token);
+            // console.log(localStorage.getItem('token'),"jfjfjfjfjfkk")
+            // 每次请求接口时，需要在headers添加对应的Token验证
+            axios.defaults.headers.common['Authorization'] = token
+            // 更新token
+            commit('auth_success', token, user)
+            resolve(res)
+          })
+          .catch(err => {
+            commit('auth_error')
+            localStorage.removeItem('token')
+            localStorage.removeItem('userId')
+            reject(err)
+          })
       })
     },
-    LogOut({ commit, state }) {
+    LogOut ({ commit, state }) {
       return new Promise((resolve, reject) => {
         axios.post('/api/logout')
           .then(response => {
@@ -120,10 +117,10 @@ const store = new Vuex.Store({
             localStorage.removeItem('token')
             localStorage.removeItem('userId')
             // 移除之前在axios头部设置的token,现在将无法执行需要token的事务
-            delete axios.defaults.headers.common['Authorization'];
+            delete axios.defaults.headers.common['Authorization']
             commit('logout')
             resolve(response)
-           })
+          })
           .catch(error => {
             reject(error)
           })
@@ -135,6 +132,6 @@ const store = new Vuex.Store({
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status
   }
-});
+})
 
-export default store;
+export default store

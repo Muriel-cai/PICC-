@@ -18,7 +18,7 @@
          label="部门"
          >
        </el-table-column>
-       <el-table-column  width="120"  label="操作">  
+       <el-table-column  width="120"  label="操作">
           <template slot-scope="scope">
             <el-button
             size="mini"
@@ -27,25 +27,25 @@
             >
               删除
             </el-button>
-          </template>   
+          </template>
         </el-table-column>
      </el-table>
-    
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'nolimitsPenson',
-  props:['nolimitsPenson','deletelimitTr'],
+  props: ['nolimitsPenson', 'deletelimitTr'],
   data () {
     return {
-    
+
     }
   },
-  methods:{
-    deleteTr(option){
-      this.$emit('deletelimitTr',option)
+  methods: {
+    deleteTr (option) {
+      this.$emit('deletelimitTr', option)
     }
   }
 }
@@ -55,8 +55,3 @@ export default {
 <style scoped>
 
 </style>
-
-
-
-
-

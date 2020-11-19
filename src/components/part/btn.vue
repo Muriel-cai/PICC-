@@ -1,21 +1,21 @@
 <template>
   <div class="btn">
    <span @click ="btnE"> {{btnText}} </span>
-   
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'btn',
-  props:['btnText','btnEvent'],
-  data () {    
+  props: ['btnText', 'btnEvent'],
+  data () {
     return {
-     
+
     }
   },
-  methods:{
-    btnE (){
+  methods: {
+    btnE () {
       this.$emit('btnEvent')
     }
   }
